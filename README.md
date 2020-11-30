@@ -1,4 +1,4 @@
-# Double-linked-list
+# Double Linked List
 ## A simple double linked list
 
 This was done as a part of Algorithms and data structures class in FEFU
