@@ -26,6 +26,7 @@ public:
 
     /// Removes all the elements from the list
     void destroy() {
+        length = 0;
         // shared_ptr makes it easy to remoove stuff from memory
         // so when we set it to NULL all the nodes are
         // removed from memory automatically
