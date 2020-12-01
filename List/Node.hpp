@@ -9,8 +9,6 @@
 #define Node_hpp
 
 #include <stdio.h>
-#include <stdio.h>
-#include <memory>
 
 template <typename T>
 struct Node {
@@ -18,8 +16,8 @@ struct Node {
     T value;
 
     /// Pointer to the previous Node
-    std::shared_ptr<Node<T>> prev;
+    Node<T> *prev;
     /// Pointer to the next Node
-    std::shared_ptr<Node<T>> next;
+    Node<T> *next;
 };
 #endif /* Node_hpp */

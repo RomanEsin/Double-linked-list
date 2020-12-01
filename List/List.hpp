@@ -11,7 +11,6 @@
 #include "Node.hpp"
 #include <stdio.h>
 #include <iostream>
-#include <memory>
 
 template <typename T>
 class List {
@@ -27,9 +26,7 @@ public:
     /// Removes all the elements from the list
     void destroy() {
         length = 0;
-        // shared_ptr makes it easy to remoove stuff from memory
-        // so when we set it to NULL all the nodes are
-        // removed from memory automatically
+        delete head;
         head = nullptr;
     }
 
@@ -37,7 +34,7 @@ public:
     void printAll() {
         using namespace std;
 
-        shared_ptr<Node<T>> current = head;
+        Node<T> *current = head;
 
         while (current != nullptr) {
             cout << current->value << ' ';
@@ -47,16 +44,15 @@ public:
     }
 
     /// Returns the node at index
-    std::shared_ptr<Node<T>> nodeAt(int i) {
+    Node<T> *nodeAt(int i) {
         using namespace std;
 
         int counter = 0;
 
         // Go to the latest available node
-        shared_ptr<Node<T>> current = head;
+        Node<T> *current = head;
 
         while (current != nullptr) {
-            // If next is NULL then insert
             if (counter == i) return current;
 
             current = current->next;
@@ -71,10 +67,9 @@ public:
         using namespace std;
 
         int counter = 0;
-        shared_ptr<Node<T>> current = head;
+        Node<T> *current = head;
 
         while (current != nullptr) {
-            // If next is NULL then insert
             if (current->value == value) return counter;
             current = current->next;
             counter++;
@@ -86,23 +81,27 @@ public:
     // MARK: - Insert methoods
     /// Inserts a node at i position
     void insertAt(T value, int i) {
-        length++;
         using namespace std;
+
+        if (i == 0) {
+            pushFront(value);
+            return;
+        }
+
+        length++;
 
         int counter = 0;
 
-        shared_ptr<Node<T>> current = head;
-        Node<T> newNode = Node<T>{value};
+        Node<T> *current = head;
+        Node<T> *newNode = new Node<T>{value};
 
         // Find where to insert
         while (current != nullptr) {
-            // If next is NULL then insert
-            if (counter == i) {
-                shared_ptr<Node<T>> prev = current->prev;
+            if (counter + 1 == i) {
 
-                newNode.prev = prev;
-                newNode.next = current;
-                prev->next = make_shared<Node<T>>(newNode);
+                newNode->next = current->next;
+                current->next = newNode;
+                newNode->prev = current;
 
                 current = nullptr;
             } else {
@@ -113,21 +112,19 @@ public:
     }
 
     /// Inserts node after the given node
-    void insertAfter(T value, Node<T> afterNode) {
+    void insertAfter(T value, int afterNode) {
         length++;
         using namespace std;
 
-        shared_ptr<Node<T>> current = head;
-        Node<T> newNode = Node<T>{value};
+        Node<T> *current = head;
+        Node<T> *newNode = new Node<T>{value};
 
         // Find where to insert
         while (current != nullptr) {
-            // If next is NULL then insert
-            if (current->value == afterNode.value) {
-                shared_ptr<Node<T>> newNodePtr = make_shared<Node<T>>(newNode);
-                newNodePtr->next = current->next;
-                current->next = newNodePtr;
-                newNodePtr->prev = current;
+            if (current->value == afterNode) {
+                newNode->next = current->next;
+                current->next = newNode;
+                newNode->prev = current;
 
                 current = nullptr;
             } else {
@@ -137,28 +134,28 @@ public:
     }
 
     /// Inserts node before the given node
-    void insertBefore(T value, Node<T> beforeNode) {
+    void insertBefore(T value, int beforeNode) {
         using namespace std;
 
-        if (beforeNode.value == head->value) {
+        if (head->value == beforeNode) {
             pushFront(value);
             return;
         }
 
         length++;
-        shared_ptr<Node<T>> current = head;
-        Node<T> newNode = Node<T>{value};
+        
+        Node<T> *current = head;
+        Node<T> *newNode = new Node<T>{value};
 
         // Find where to insert
         while (current != nullptr) {
             // If next is NULL then insert
-            if (current->value == beforeNode.value) {
-                shared_ptr<Node<T>> newNodePtr = make_shared<Node<T>>(newNode);
-                shared_ptr<Node<T>> prev = current->prev;
+            if (current->value == beforeNode) {
+                Node<T> *prev = current->prev;
 
-                prev->next = newNodePtr;
-                newNodePtr->next = current;
-                newNodePtr->prev = prev;
+                prev->next = newNode;
+                newNode->next = current;
+                newNode->prev = prev;
 
                 current = nullptr;
             } else {
@@ -173,14 +170,14 @@ public:
         using namespace std;
 
         // Go to the latest available node
-        shared_ptr<Node<T>> current = head;
-        Node<T> newNode = Node<T>{value};
+        Node<T> *current = head;
+        Node<T> *newNode = new Node<T>{value};
 
         while (current != nullptr) {
             // If next is NULL then insert
             if (current->next == nullptr) {
-                newNode.prev = current;
-                current->next = make_shared<Node<T>>(newNode);
+                newNode->prev = current;
+                current->next = newNode;
                 current = nullptr;
             } else {
                 current = current->next;
@@ -193,34 +190,34 @@ public:
         length++;
         using namespace std;
 
-        Node<T> newNode = Node<T>{value};
-        auto newNodePtr = make_shared<Node<T>>(newNode);
+        Node<T> *newNode = new Node<T>{value};
 
-        shared_ptr<Node<T>> headCopy = head;
-        headCopy->prev = newNodePtr;
-
-        head = newNodePtr;
+        Node<T> *headCopy = (Node<int>*) malloc(sizeof(Node<int>));
+        memcpy(headCopy, head, sizeof(Node<int>));
+        head = newNode;
+        headCopy->prev = head;
         head->next = headCopy;
     }
 
     // MARK: - Remove methods
     /// Removes given node from the list
     void remove(T value) {
-        length--;
         using namespace std;
-        shared_ptr<Node<T>> current = head;
+        Node<T> *current = head;
 
         if (head->value == value) {
             popFront();
             return;
         }
 
+        length--;
+
         while (current != nullptr) {
-            // If next is NULL then insert
             if (current->value == value) {
-                shared_ptr<Node<T>> prev = current->prev;
+                Node<T> *prev = current->prev;
                 prev->next = current->next;
                 current->next->prev = prev;
+                delete current;
                 current = nullptr;
             } else {
                 current = current->next;
@@ -240,14 +237,14 @@ public:
         length--;
 
         int counter = 0;
-        shared_ptr<Node<T>> current = head;
+        Node<T> *current = head;
 
         while (current != nullptr) {
-            // If next is NULL then insert
             if (counter == i - 1) {
-                shared_ptr<Node<T>> prev = current->prev;
+                Node<T> *prev = current->prev;
                 prev->next = current->next;
                 prev->next->prev = prev;
+                delete current;
                 current = nullptr;
             } else {
                 current = current->next;
@@ -260,27 +257,35 @@ public:
     /// Removes element from front
     void popFront() {
         length--;
+        if (length == 0) {
+            destroy();
+            return;
+        }
+        
+        Node<T> *headCopy = head;
         head = head->next;
+        delete headCopy;
         head->prev = nullptr;
     }
 
     /// Removes element from back
     void popBack() {
-        length--;
         using namespace std;
-
-        if (length == 0) {
-            head = nullptr;
+        if (length == 1) {
+            popFront();
             return;
         }
 
+        length--;
+
         // Go to the latest available node
-        shared_ptr<Node<T>> current = head;
+        Node<T> *current = head;
 
         while (current != nullptr) {
-            // If next is NULL then insert
-            if (current->next->next == nullptr) {
-                current->next = nullptr;
+            if (current->next == nullptr) {
+                current->prev->next = nullptr;
+                current->prev = nullptr;
+                delete current;
                 current = nullptr;
             } else {
                 current = current->next;
@@ -292,11 +297,11 @@ public:
     // Init
     List(T value) {
         using namespace std;
-        head = make_shared<Node<T>>(Node<T>{value});
+        head = new Node<T>{value};
         length = 1;
     }
 private:
-    std::shared_ptr<Node<T>> head;
+    Node<T> *head;
 };
 
 #endif /* List_hpp */
