@@ -143,7 +143,7 @@ int main() {
     // Prints: 2
 
     list1->destroy();
-
+    std::cout << "Len:" << list1->length << "";
     list1->printAll();
 
     return 0;

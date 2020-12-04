@@ -16,7 +16,9 @@ template <typename T>
 class List {
 public:
     /// Length of the list
-    int length;
+    int getLength() {
+        return length;
+    }
 
     /// True is empty, false if not empty
     bool isEmpty() {
@@ -302,6 +304,7 @@ public:
     }
 private:
     Node<T> *head;
+    int length;
 };
 
 #endif /* List_hpp */
