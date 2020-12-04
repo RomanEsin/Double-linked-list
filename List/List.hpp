@@ -278,21 +278,7 @@ public:
             return;
         }
 
-        length--;
-
-        // Go to the latest available node
-        Node<T> *current = head;
-
-        while (current != nullptr) {
-            if (current->next == nullptr) {
-                current->prev->next = nullptr;
-                current->prev = nullptr;
-                delete current;
-                current = nullptr;
-            } else {
-                current = current->next;
-            }
-        }
+        eraseAt(length - 1);
     }
 
     // MARK: - Init method
