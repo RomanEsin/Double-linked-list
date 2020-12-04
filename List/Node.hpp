@@ -9,6 +9,7 @@
 #define Node_hpp
 
 #include <stdio.h>
+#include <iostream>
 
 template <typename T>
 struct Node {
