@@ -194,8 +194,10 @@ public:
 
         Node<T> *newNode = new Node<T>(value);
 
-        Node<T> *headCopy = (Node<int>*) malloc(sizeof(Node<int>));
-        memcpy(headCopy, head, sizeof(Node<int>));
+//        Node<T> *headCopy = (Node<int>*) malloc(sizeof(Node<int>));
+//        memcpy(headCopy, head, sizeof(Node<int>));
+
+        Node<T> *headCopy = head;
         head = newNode;
         headCopy->prev = head;
         head->next = headCopy;
