@@ -168,23 +168,7 @@ public:
 
     /// Inserts node to be the last of all other nodes
     void pushBack(T value) {
-        length++;
-        using namespace std;
-
-        // Go to the latest available node
-        Node<T> *current = head;
-        Node<T> *newNode = new Node<T>(value);
-
-        while (current != nullptr) {
-            // If next is NULL then insert
-            if (current->next == nullptr) {
-                newNode->prev = current;
-                current->next = newNode;
-                current = nullptr;
-            } else {
-                current = current->next;
-            }
-        }
+        insertAt(value, length - 1);
     }
 
     /// Inserts node in front of all other nodes
@@ -278,7 +262,21 @@ public:
             return;
         }
 
-        eraseAt(length - 1);
+        length--;
+
+        // Go to the latest available node
+        Node<T> *current = head;
+
+        while (current != nullptr) {
+            if (current->next == nullptr) {
+                current->prev->next = nullptr;
+                current->prev = nullptr;
+                delete current;
+                current = nullptr;
+            } else {
+                current = current->next;
+            }
+        }
     }
 
     // MARK: - Init method
