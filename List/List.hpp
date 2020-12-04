@@ -16,7 +16,7 @@ template <typename T>
 class List {
 public:
     /// Length of the list
-    int length = 1;
+    int length;
 
     /// True is empty, false if not empty
     bool isEmpty() {
@@ -93,7 +93,7 @@ public:
         int counter = 0;
 
         Node<T> *current = head;
-        Node<T> *newNode = new Node<T>{value};
+        Node<T> *newNode = new Node<T>(value);
 
         // Find where to insert
         while (current != nullptr) {
@@ -117,7 +117,7 @@ public:
         using namespace std;
 
         Node<T> *current = head;
-        Node<T> *newNode = new Node<T>{value};
+        Node<T> *newNode = new Node<T>(value);
 
         // Find where to insert
         while (current != nullptr) {
@@ -145,7 +145,7 @@ public:
         length++;
         
         Node<T> *current = head;
-        Node<T> *newNode = new Node<T>{value};
+        Node<T> *newNode = new Node<T>(value);
 
         // Find where to insert
         while (current != nullptr) {
@@ -171,7 +171,7 @@ public:
 
         // Go to the latest available node
         Node<T> *current = head;
-        Node<T> *newNode = new Node<T>{value};
+        Node<T> *newNode = new Node<T>(value);
 
         while (current != nullptr) {
             // If next is NULL then insert
@@ -190,7 +190,7 @@ public:
         length++;
         using namespace std;
 
-        Node<T> *newNode = new Node<T>{value};
+        Node<T> *newNode = new Node<T>(value);
 
         Node<T> *headCopy = (Node<int>*) malloc(sizeof(Node<int>));
         memcpy(headCopy, head, sizeof(Node<int>));
@@ -297,7 +297,7 @@ public:
     // Init
     List(T value) {
         using namespace std;
-        head = new Node<T>{value};
+        head = new Node<T>(value);
         length = 1;
     }
 private:

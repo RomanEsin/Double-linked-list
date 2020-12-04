@@ -19,5 +19,9 @@ struct Node {
     Node<T> *prev;
     /// Pointer to the next Node
     Node<T> *next;
+
+    Node<T>(int val) {
+        value = val;
+    }
 };
 #endif /* Node_hpp */
