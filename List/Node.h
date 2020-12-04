@@ -26,5 +26,10 @@ struct Node {
         prev = nullptr;
         next = nullptr;
     }
+
+    ~Node<T>() {
+        prev = nullptr;
+        next = nullptr;
+    }
 };
 #endif /* Node_hpp */

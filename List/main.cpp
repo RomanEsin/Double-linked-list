@@ -98,7 +98,7 @@ int main() {
 
 
     // MARK: - Remove element
-    list1->remove(23);
+    list1->removeFirst(23);
 
     std::cout << "Len:" << list1->getLength() << ", ";
     list1->printAll();

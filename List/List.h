@@ -203,7 +203,7 @@ public:
 
     // MARK: - Remove methods
     /// Removes given node from the list
-    void remove(T value) {
+    void removeFirst(T value) {
         using namespace std;
         Node<T> *current = head;
 
