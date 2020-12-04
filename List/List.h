@@ -8,7 +8,7 @@
 #ifndef List_hpp
 #define List_hpp
 
-#include "Node.hpp"
+#include "Node.h"
 #include <stdio.h>
 #include <iostream>
 

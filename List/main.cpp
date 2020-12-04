@@ -35,8 +35,8 @@
 #include <stdlib.h>
 #include <memory>
 
-#include "Node.hpp"
-#include "List.hpp"
+#include "Node.h"
+#include "List.h"
 
 int main() {
 
