@@ -22,6 +22,8 @@ struct Node {
 
     Node<T>(int val) {
         value = val;
+        prev = nullptr;
+        next = nullptr;
     }
 };
 #endif /* Node_hpp */
