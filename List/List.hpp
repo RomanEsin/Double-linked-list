@@ -105,7 +105,7 @@ public:
                 current->next = newNode;
                 newNode->prev = current;
 
-                current = nullptr;
+                return;
             } else {
                 current = current->next;
             }
@@ -128,7 +128,7 @@ public:
                 current->next = newNode;
                 newNode->prev = current;
 
-                current = nullptr;
+                return;
             } else {
                 current = current->next;
             }
@@ -159,7 +159,7 @@ public:
                 newNode->next = current;
                 newNode->prev = prev;
 
-                current = nullptr;
+                return;
             } else {
                 current = current->next;
             }
@@ -168,7 +168,23 @@ public:
 
     /// Inserts node to be the last of all other nodes
     void pushBack(T value) {
-        insertAt(value, length - 1);
+        length++;
+        using namespace std;
+
+        // Go to the latest available node
+        Node<T> *current = head;
+        Node<T> *newNode = new Node<T>(value);
+
+        while (current != nullptr) {
+            // If next is NULL then insert
+            if (current->next == nullptr) {
+                newNode->prev = current;
+                current->next = newNode;
+                return;
+            } else {
+                current = current->next;
+            }
+        }
     }
 
     /// Inserts node in front of all other nodes
@@ -205,6 +221,7 @@ public:
                 current->next->prev = prev;
                 delete current;
                 current = nullptr;
+                return;
             } else {
                 current = current->next;
             }
@@ -232,6 +249,7 @@ public:
                 prev->next->prev = prev;
                 delete current;
                 current = nullptr;
+                return;
             } else {
                 current = current->next;
             }
@@ -273,6 +291,7 @@ public:
                 current->prev = nullptr;
                 delete current;
                 current = nullptr;
+                return;
             } else {
                 current = current->next;
             }
